@@ -349,7 +349,7 @@ CARD_COLS = 5
 CARD_GAP_X = 8
 CARD_GAP_Y = 6
 CARD_W = (CONTENT_W - (CARD_COLS - 1) * CARD_GAP_X) // CARD_COLS
-CARD_H = 118
+CARD_H = 112
 
 
 # --------------------------------------------------------------------------
@@ -587,6 +587,9 @@ def draw_also_line(sheet: Sheet, y: int, extra) -> int:
 
 def draw_date_check(sheet: Sheet, y: int, facts) -> int:
     top = y + 6
+    # Clamp so both text lines finish inside the page with a small bottom margin.
+    floor = PAGE_H - 4 - BOTTOM_MARGIN - 27
+    top = min(top, floor)
     sheet.rule(MARGIN, top, CONTENT_W, INK, 1)
     heading = "DATE CHECK"
     sheet.write(MARGIN, top + 9, heading, RED, 2)
@@ -598,6 +601,9 @@ def draw_date_check(sheet: Sheet, y: int, facts) -> int:
     sheet.write(column_x, top + 18, truncate(stamp, PAGE_W - MARGIN - column_x, 1), INK_SOFT, 1)
     sheet.fill_rect(0, PAGE_H - 4, PAGE_W, 4, INK)
     return top + 31
+
+
+BOTTOM_MARGIN = 10
 
 
 # --------------------------------------------------------------------------
